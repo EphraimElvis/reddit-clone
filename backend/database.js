@@ -4,6 +4,7 @@ const sequelize = new Sequelize({
   dialect: "sqlite",
   storage: "./database.sqlite",
 });
+// sequelize.sync({ force: true });
 
 try {
   sequelize.authenticate();
@@ -11,3 +12,4 @@ try {
 } catch (error) {
   console.error("Unable to connect to the database:", error);
 }
+module.exports = sequelize;
