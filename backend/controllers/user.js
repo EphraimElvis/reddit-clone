@@ -1,5 +1,5 @@
-const User = require("../models/User");
-//const Post = require("../models/Post");
+const { User } = require("../models/index");
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 exports.signup = (req, res) => {
@@ -19,6 +19,45 @@ exports.signup = (req, res) => {
         res.status(500).json({
           error,
         });
+      });
+  });
+};
+
+exports.login = (req, res) => {
+  User.findOne({
+    where: { email: req.body.email },
+  })
+    .then((user) => {
+      if (!user) {
+        return res.status(401).json({
+          error: new Error("User not found!"),
+        });
+      }
+      bcrypt
+        .compare(req.body.password, user.password)
+        .then((valid) => {
+          if (!valid) {
+            return req.status(401).json({
+              error: new Error("Incorrect password"),
+            });
+          }
+          const token = jwt.sign({ userId: user.id }, "RANDOM_TOKEN_SECRET", {
+            expiresIn: "24H",
+          });
+          res.status(200).json({
+            userId: user._id,
+            token: token,
+          });
+        })
+        .catch((error) => {
+          res.status(500).json({
+            error: error,
+          });
+        });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        message: error,
       });
   });
 };
