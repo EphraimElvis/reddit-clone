@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext, Link } from "react-router-dom";
 import "../App.css";
 
 export default function Login() {
@@ -34,6 +34,7 @@ export default function Login() {
       navigate("/");
       console.log("result", user);
     } catch (error) {
+      alert(error);
       console.log("error creating", error);
     }
   };
@@ -68,7 +69,9 @@ export default function Login() {
               maxLength={8}
             />
           </div>
-          <div className="sign-up">New to App? Sign Up</div>
+          <div className="sign-up">
+            New to App? <Link to={"/signup"}>Sign up</Link>
+          </div>
           <div
             type="submit"
             className="button-login primary-button"

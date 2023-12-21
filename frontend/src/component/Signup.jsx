@@ -1,6 +1,8 @@
 import { useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Signup = () => {
+  const navigate = useNavigate();
   const emailRef = useRef("");
   const passwordRef = useRef("");
   const firstnameRef = useRef("");
@@ -23,14 +25,11 @@ export const Signup = () => {
     })
       .then((res) => {
         if (res.ok) {
-          return res.json();
+          navigate("/login");
         }
         throw new Error("Request failed!");
       })
-      .then((data) => {
-        const userData = JSON.parse(data);
-        sessionStorage.setItem("userData", userData);
-      })
+      .then((data) => {})
       .catch((er) => console.log("error", er));
   };
 
@@ -81,7 +80,9 @@ export const Signup = () => {
               className="input"
             />
           </div>
-          <div className="sign-up">New to App? Sign Up</div>
+          <div className="sign-up">
+            Existing user? <Link to={"/login"}>Sign in</Link>
+          </div>
           <div
             className="button-login primary-button"
             onClick={handleCreateUser}
