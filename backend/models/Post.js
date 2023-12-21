@@ -4,11 +4,15 @@ const sequelize = require("../database");
 const Post = sequelize.define("post", {
   text: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
+  },
+  description: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
   imageUrl: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
 });
 

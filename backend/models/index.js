@@ -5,4 +5,4 @@ Post.belongsTo(User);
 Post.belongsToMany(User, { through: "userReadPost" });
 User.belongsToMany(Post, { through: "userReadPost" });
 
-module.export = { Post, User };
+module.exports = { Post, User };

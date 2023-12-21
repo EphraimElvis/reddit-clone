@@ -1,8 +1,14 @@
 require("./database");
 const express = require("express");
 const path = require("path");
+const cors = require("cors");
+const helmet = require("helmet");
 
 const app = express();
+
+app.use(cors());
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
+
 const userRoutes = require("./routes/user");
 const userPostRoutes = require("./routes/post");
 const getAllPostRoutes = require("./routes/post");

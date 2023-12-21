@@ -45,7 +45,7 @@ exports.login = (req, res) => {
             expiresIn: "24H",
           });
           res.status(200).json({
-            userId: user._id,
+            userId: user.id,
             token: token,
           });
         })
@@ -59,5 +59,5 @@ exports.login = (req, res) => {
       res.status(500).json({
         message: error,
       });
-  });
+    });
 };

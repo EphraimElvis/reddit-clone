@@ -5,7 +5,7 @@ const sequelize = new Sequelize({
   storage: "./database.sqlite",
 });
 
-// sequelize.sync({ force: true });
+//sequelize.sync({ force: true });
 
 try {
   sequelize.authenticate();

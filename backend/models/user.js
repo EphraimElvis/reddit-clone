@@ -10,7 +10,7 @@ const User = sequelize.define("user", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  firsstName: {
+  firstName: {
     type: DataTypes.STRING,
     allowNull: false,
   },
@@ -20,4 +20,4 @@ const User = sequelize.define("user", {
   },
 });
 
-exports.module = User;
+module.exports = User;
