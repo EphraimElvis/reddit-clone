@@ -55,19 +55,14 @@ const Post = ({ userId, postId, description, imageUrl, text, token }) => {
         )}
       </div>
     </div>
-
-    //   <button disabled={!hasRead} onClick={handleRead}>
-    //     {hasRead && "Read"}
-    //   </button>
-    // </div>
   );
 };
 
 export default Post;
 
 Post.propTypes = {
-  userId: PropTypes.string,
-  postId: PropTypes.string,
+  userId: PropTypes.number,
+  postId: PropTypes.number,
   description: PropTypes.string,
   imageUrl: PropTypes.string,
   text: PropTypes.string,

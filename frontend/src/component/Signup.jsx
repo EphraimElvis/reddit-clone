@@ -29,7 +29,7 @@ export const Signup = () => {
         }
         throw new Error("Request failed!");
       })
-      .then((data) => {})
+      .then(() => {})
       .catch((er) => console.log("error", er));
   };
 
