@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { CreatePost } from "./component/CreatePost";
 import Post from "./component/Post";
 
@@ -12,6 +12,10 @@ function App() {
 
   const handleShowForm = (e) => {
     e.preventDefault();
+    if (!user) {
+      alert("Please Signin to create a post!");
+      return;
+    }
     if (!showPostForm) {
       setShowPostForm(true);
     } else {
@@ -21,7 +25,6 @@ function App() {
 
   useEffect(() => {
     const user = sessionStorage.getItem("token");
-    //validate token from backend to check if token has not expired
     if (user) {
       setUser(JSON.parse(user));
     } else {
@@ -37,8 +40,6 @@ function App() {
   useEffect(() => {
     const fetchAllPost = async () => {
       try {
-        //const beareaToken = sessionStorage.getItem("token");
-        //console.log("bearer tpken", beareaToken);
         const res = await fetch("http://localhost:3000/api/posts", {
           method: "GET",
           headers: {
@@ -57,8 +58,6 @@ function App() {
     if (user) {
       fetchAllPost();
     }
-
-    //console.log("all post", data);
   }, [user]);
 
   return (
@@ -68,7 +67,9 @@ function App() {
           <span className="material-symbols-outlined">add</span>Create Post
         </button>
         <h1 className="post-header">Welcome</h1>
-        <h1 className="user-profile-header">Welcome</h1>
+        <h1 className="user-profile-header">
+          <Link to={"/profile"}>Profile</Link>
+        </h1>
       </header>
       <main>
         {showPostForm ? (
