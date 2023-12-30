@@ -1,10 +1,11 @@
-import React, { Children } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "./component/Login";
 import { Signup } from "./component/Signup";
 import App from "./App";
+import Profile from "./component/Profile";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
         element: <Signup />,
       },
     ],
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
   },
 ]);
 
