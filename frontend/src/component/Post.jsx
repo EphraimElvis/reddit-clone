@@ -1,25 +1,23 @@
 import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 
-const Post = ({ userId, postId, description, imageUrl, text }) => {
+const Post = ({ userId, postId, description, imageUrl, text, token }) => {
   const [hasRead, setHasRead] = useState(false);
 
   useEffect(() => {
-    const user = JSON.parse(sessionStorage.getItem("token"));
     fetch("http://localhost:3000/api/posts/" + postId + "/" + userId, {
       headers: {
-        Authorization: `bearer ${user.token}`,
+        Authorization: `bearer ${token}`,
       },
     })
       .then((response) => {
-        // if (response.ok) {
-        response.json();
-        // }
+        return response.json();
       })
       .then((data) => {
         setHasRead(data.hasRead);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [postId, token, userId]);
 
   const handleRead = () => {
     const user = JSON.parse(sessionStorage.getItem("token"));
@@ -67,6 +65,11 @@ const Post = ({ userId, postId, description, imageUrl, text }) => {
 
 export default Post;
 
-//create post component that displays post
-//pass the post id, user_id,
-//inside the post, check if user has read post using useefect
+Post.propTypes = {
+  userId: PropTypes.string,
+  postId: PropTypes.string,
+  description: PropTypes.string,
+  imageUrl: PropTypes.string,
+  text: PropTypes.string,
+  token: PropTypes.string,
+};

@@ -4,15 +4,6 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { CreatePost } from "./component/CreatePost";
 import Post from "./component/Post";
 
-//create post component that displays post
-//pass the post id, user_id,
-//inside the post, check if user has read post using useefect
-
-//when user has logged in
-//create a form to create a post
-
-//styling the page
-
 function App() {
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState();
@@ -34,7 +25,12 @@ function App() {
     if (user) {
       setUser(JSON.parse(user));
     } else {
-      navigate("/login");
+      if (
+        window.location.pathname !== "/signup" &&
+        window.location.pathname !== "/login"
+      ) {
+        navigate("/login");
+      }
     }
   }, [navigate]);
 
@@ -72,8 +68,13 @@ function App() {
           <span className="material-symbols-outlined">add</span>Create Post
         </button>
         <h1 className="post-header">Welcome</h1>
+        <h1 className="user-profile-header">Welcome</h1>
       </header>
-      <main>{showPostForm ? <CreatePost user={user} /> : null}</main>
+      <main>
+        {showPostForm ? (
+          <CreatePost token={user.token} createPost={setPosts} posts={posts} />
+        ) : null}
+      </main>
       {user &&
         posts.map(
           (post) =>
@@ -85,24 +86,9 @@ function App() {
                 description={post.description}
                 imageUrl={post.imageUrl}
                 text={post.text}
+                token={user.token}
               />
             )
-          /* <div className="post" key={post.id}>
-            <h2 className="post-title">{post.text}</h2>
-            <img src={post.imageUrl} className="post-img" />
-            <p className="post-title">{post.description}</p>
-            <div className="read-post-container">
-              {true ? (
-                <span className="material-symbols-outlined read">
-                  mark_email_read
-                </span>
-              ) : (
-                <span className="material-symbols-outlined unread">
-                  mark_as_unread
-                </span>
-              )}
-            </div>
-          </div> */
         )}
       <Outlet context={[setUser]} />
     </div>

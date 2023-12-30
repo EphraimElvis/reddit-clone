@@ -15,10 +15,8 @@ exports.create = (req, res) => {
     post.description = req.body.description;
   }
   Post.create(post)
-    .then(() => {
-      res.status(201).json({
-        message: "Post added successfully!",
-      });
+    .then((post) => {
+      res.status(201).json(post);
     })
     .catch((error) => {
       res.status(500).json({

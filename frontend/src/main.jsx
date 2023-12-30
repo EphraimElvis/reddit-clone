@@ -1,8 +1,8 @@
-import React from "react";
+import React, { Children } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Login from "./component/login";
+import Login from "./component/Login";
 import { Signup } from "./component/Signup";
 import App from "./App";
 const router = createBrowserRouter([

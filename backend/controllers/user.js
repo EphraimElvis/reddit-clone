@@ -30,15 +30,15 @@ exports.login = (req, res) => {
     .then((user) => {
       if (!user) {
         return res.status(401).json({
-          error: new Error("User not found!"),
+          message: "User not found!",
         });
       }
       bcrypt
         .compare(req.body.password, user.password)
         .then((valid) => {
           if (!valid) {
-            return req.status(401).json({
-              error: new Error("Incorrect password"),
+            return res.status(401).json({
+              message: new Error("Incorrect password"),
             });
           }
           const token = jwt.sign({ userId: user.id }, "RANDOM_TOKEN_SECRET", {
@@ -50,14 +50,10 @@ exports.login = (req, res) => {
           });
         })
         .catch((error) => {
-          res.status(500).json({
-            error: error,
-          });
+          res.status(500).json(error);
         });
     })
     .catch((error) => {
-      res.status(500).json({
-        message: error,
-      });
+      res.status(500).json(error);
     });
 };

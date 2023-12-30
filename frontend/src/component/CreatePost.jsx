@@ -1,43 +1,14 @@
-import { useRef, useEffect, useState } from "react";
-
-//Priority
-//using form data contructor
-//send form data object not json
-
-export const CreatePost = () => {
-  const [postImage, setPostImage] = useState();
-  const [user, setUser] = useState(
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcwMzE1NjcyNywiZXhwIjoxNzAzMjQzMTI3fQ.bShzsnaw-YNsVLEMGDQKwygIHUbhJSBCJBe272_6MsQ"
-  );
-  const titleRef = useRef();
-  const fileRef = useRef();
-  const refForm = useRef();
-  const refButton = useRef();
-  const descriptionRef = useRef();
-
-  useEffect(() => {});
-
+import PropTypes from "prop-types";
+export const CreatePost = (props) => {
   const handleUserPost = (e) => {
     e.preventDefault();
-    const userPost = {
-      text: titleRef.current.value,
-      image: postImage,
-      description: descriptionRef.current.value,
-    };
-    const formData = new FormData();
-    formData.append("image", userPost.image);
-    formData.append("text", userPost.text);
-    formData.append("description", userPost.description);
-    //const userFormData = Object.fromEntries(formData);
-    console.log("user data", Object.fromEntries(formData));
 
     fetch("http://localhost:3000/api/posts", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user}`,
+        Authorization: `Bearer ${props.token}`,
       },
-      body: JSON.stringify(formData),
+      body: new FormData(e.target),
     })
       .then((res) => {
         if (res.ok) {
@@ -46,6 +17,7 @@ export const CreatePost = () => {
         throw new Error("Request failed!");
       })
       .then((data) => {
+        props.createPost([data, ...props.posts]);
         console.log("data ", data);
       })
       .catch((er) => console.log("error", er));
@@ -53,12 +25,12 @@ export const CreatePost = () => {
 
   return (
     <div className="create-post-container">
-      <form className="form" onSubmit={handleUserPost} ref={refForm}>
+      <form className="form" onSubmit={handleUserPost}>
         <input
           type="text"
           className="text-input-title"
           placeholder="Post title"
-          ref={titleRef}
+          name="text"
         />
         <div className="input-container">
           <label htmlFor="image_uploads">
@@ -67,33 +39,24 @@ export const CreatePost = () => {
           <input
             type="file"
             id="image_uploads"
-            name="image_uploads"
+            name="image"
             accept=".jpg, .jpeg, .png"
             multiple
-            ref={fileRef}
-            onChange={(event) => {
-              const fileList = event.target.files[0];
-              //setPostImage(fileList);
-              setPostImage(URL.createObjectURL(fileList));
-              //console.log(fileList);
-            }}
           />
         </div>
         <textarea
           className="textarea-description"
           placeholder="Post description"
-          ref={descriptionRef}
+          name="description"
         />
-        <input
-          type="submit"
-          value={"Post"}
-          className="post-btn"
-          ref={refButton}
-        />
+        <input type="submit" value={"Post"} className="post-btn" />
       </form>
     </div>
   );
 };
 
-//when user has logged in
-//create a form to create a post
+CreatePost.propTypes = {
+  token: PropTypes.string,
+  createPost: PropTypes.func,
+  posts: PropTypes.arrayOf(PropTypes.object),
+};
