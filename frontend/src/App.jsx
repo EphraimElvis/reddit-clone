@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { CreatePost } from "./component/CreatePost";
 import Post from "./component/Post";
 
@@ -48,7 +48,6 @@ function App() {
           },
         });
         const json = await res.json();
-        console.log("", json);
         setPosts(json);
         return json;
       } catch (error) {
@@ -67,8 +66,17 @@ function App() {
           <span className="material-symbols-outlined">add</span>Create Post
         </button>
         <h1 className="post-header">Welcome</h1>
-        <h1 className="user-profile-header">
-          <Link to={"/profile"}>Profile</Link>
+        <h1
+          className="user-profile-header"
+          onClick={() => {
+            if (!user) {
+              alert("Please Signin to create account");
+            } else {
+              navigate("/profile");
+            }
+          }}
+        >
+          Profile
         </h1>
       </header>
       <main>

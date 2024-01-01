@@ -26,6 +26,7 @@ export const Signup = () => {
       .then((res) => {
         if (res.ok) {
           navigate("/login");
+          return;
         }
         throw new Error("Request failed!");
       })
@@ -36,8 +37,6 @@ export const Signup = () => {
   return (
     <section className="wrapper">
       <dialog className="dialog" open>
-        <span className="material-symbols-outlined close-button">close</span>
-
         <form className="form-login">
           <h1 className="h1">Sign Up</h1>
           <div className="form-label">
