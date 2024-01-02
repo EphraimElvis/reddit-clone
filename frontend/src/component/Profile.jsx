@@ -58,30 +58,38 @@ const Profile = () => {
 
   //return <>{<>hello{userProfile.firstName}</>}</>;
   return (
-    <div>
-      <div className="user-profile-image"></div>
-      <div className="profile-head">
-        <div className="welcome">Welcome {userProfile.firstName}</div>
-        <div className="user-welcome"></div>
-        <button onClick={handleDeleteUserProfile}>Delete Profile</button>
-      </div>
-
-      <div className="profile-body">
-        <div className="user-name">
-          <div className="user-name">
-            <div className="label-name">Email </div>
-            <div className="label-value">{userProfile.email}</div>
+    <div className="wrapper">
+      <div className="profile-main-container">
+        <div className="profile-container">
+          <div className="user-profile-image">
+            <span className="material-symbols-outlined profile-size">
+              account_circle
+            </span>
+            <div className="welcome">Welcome {userProfile.firstName}</div>
           </div>
-          <div className="label-name">First Name </div>
-          <div className="label-value">{userProfile.firstName}</div>
-        </div>
-        <div className="user-name">
-          <div className="label-name">Last Name </div>
-          <div className="label-value">{userProfile.lastName}</div>
-        </div>
-        <div className="user-name">
-          <div className="label-name">Password </div>
-          <div className="label-value">{userProfile.password}</div>
+          <div className="profile-body">
+            <div className="user-name">
+              <h2 className="label-name">Email </h2>
+              <div className="label-value">{userProfile.email}</div>
+            </div>
+            <div className="user-name">
+              <h2 className="label-name">First Name </h2>
+              <div className="label-value">{userProfile.firstName}</div>
+            </div>
+
+            <div className="user-name">
+              <h2 className="label-name">Last Name </h2>
+              <div className="label-value">{userProfile.lastName}</div>
+            </div>
+            <div className="user-name">
+              <h2 className="label-name">Password </h2>
+              <div className="label-value">{userProfile.password}</div>
+            </div>
+          </div>
+          |
+          <div className="delete-account">
+            <button onClick={handleDeleteUserProfile}>Delete Profile</button>
+          </div>
         </div>
       </div>
     </div>
