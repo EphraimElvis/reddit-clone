@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import logo from "../src/assets/icon-above-font.png";
 import "./App.css";
 import { Outlet, useNavigate } from "react-router-dom";
 import { CreatePost } from "./component/CreatePost";
@@ -63,10 +64,12 @@ function App() {
     <div className="wrapper">
       <header className="header">
         <button className="create-post-btn" onClick={handleShowForm}>
-          <span className="material-symbols-outlined">add</span>Create Post
+          <span className="material-symbols-outlined">add</span>Create a post
         </button>
-        <h1 className="post-header">Welcome</h1>
-        <h1
+        <h1 className="post-header">
+          <img src={logo} />
+        </h1>
+        <div
           className="user-profile-header"
           onClick={() => {
             if (!user) {
@@ -76,30 +79,34 @@ function App() {
             }
           }}
         >
-          Profile
-        </h1>
+          <span className="material-symbols-outlined profile-size">
+            account_circle
+          </span>
+          <h5 className="view-profile">View Profile</h5>
+        </div>
       </header>
-      <main>
+      <main className="main">
         {showPostForm ? (
           <CreatePost token={user.token} createPost={setPosts} posts={posts} />
         ) : null}
+
+        {user &&
+          posts.map(
+            (post) =>
+              true && (
+                <Post
+                  userId={user.userId}
+                  postId={post.id}
+                  key={post.id}
+                  description={post.description}
+                  imageUrl={post.imageUrl}
+                  text={post.text}
+                  token={user.token}
+                />
+              )
+          )}
+        <Outlet context={[setUser]} />
       </main>
-      {user &&
-        posts.map(
-          (post) =>
-            true && (
-              <Post
-                userId={user.userId}
-                postId={post.id}
-                key={post.id}
-                description={post.description}
-                imageUrl={post.imageUrl}
-                text={post.text}
-                token={user.token}
-              />
-            )
-        )}
-      <Outlet context={[setUser]} />
     </div>
   );
 }
