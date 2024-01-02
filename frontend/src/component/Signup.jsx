@@ -36,7 +36,7 @@ export const Signup = () => {
 
   return (
     <section className="wrapper">
-      <dialog className="dialog" open>
+      <div className="dialog">
         <form className="form-login">
           <h1 className="h1">Sign Up</h1>
           <div className="form-label">
@@ -89,7 +89,7 @@ export const Signup = () => {
             Sign Up
           </div>
         </form>
-      </dialog>
+      </div>
     </section>
   );
 };

@@ -40,15 +40,8 @@ export default function Login() {
   };
 
   return (
-    <section>
-      <dialog className="dialog" open>
-        {/* <span
-          className="material-symbols-outlined close-button"
-         
-        >
-          close
-        </span> */}
-
+    <>
+      <div className="dialog">
         <form className="form-login">
           <h1 className="h1">Log In</h1>
           <div className="form-label">
@@ -80,7 +73,7 @@ export default function Login() {
             Log In
           </div>
         </form>
-      </dialog>
-    </section>
+      </div>
+    </>
   );
 }
