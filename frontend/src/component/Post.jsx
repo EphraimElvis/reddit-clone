@@ -1,7 +1,15 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
-const Post = ({ userId, postId, description, imageUrl, text, token }) => {
+const Post = ({
+  userId,
+  postId,
+  description,
+  imageUrl,
+  text,
+  token,
+  userPostId,
+}) => {
   const [hasRead, setHasRead] = useState(false);
 
   useEffect(() => {
@@ -17,7 +25,7 @@ const Post = ({ userId, postId, description, imageUrl, text, token }) => {
         setHasRead(data.hasRead);
       })
       .catch((err) => console.log(err));
-  }, [postId, token, userId]);
+  }, [postId, token, userId, userPostId]);
 
   const handleRead = () => {
     const user = JSON.parse(sessionStorage.getItem("token"));
@@ -48,7 +56,14 @@ const Post = ({ userId, postId, description, imageUrl, text, token }) => {
         ) : (
           <button
             className="material-symbols-outlined unread"
-            onClick={handleRead}
+            onClick={() => {
+              if (userId === userPostId) {
+                alert("User cannot read own post");
+                return;
+              } else {
+                handleRead();
+              }
+            }}
           >
             mark_as_unread
           </button>
@@ -67,4 +82,5 @@ Post.propTypes = {
   imageUrl: PropTypes.string,
   text: PropTypes.string,
   token: PropTypes.string,
+  userPostId: PropTypes.number,
 };

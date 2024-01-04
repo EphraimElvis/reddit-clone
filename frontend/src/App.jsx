@@ -87,7 +87,12 @@ function App() {
       </header>
       <main className="main">
         {showPostForm ? (
-          <CreatePost token={user.token} createPost={setPosts} posts={posts} />
+          <CreatePost
+            token={user.token}
+            createPost={setPosts}
+            posts={posts}
+            // user={user}
+          />
         ) : null}
 
         {user &&
@@ -102,6 +107,7 @@ function App() {
                   imageUrl={post.imageUrl}
                   text={post.text}
                   token={user.token}
+                  userPostId={post.userId}
                 />
               )
           )}
