@@ -1,16 +1,50 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useNavigate, useOutletContext, Link } from "react-router-dom";
+import validator from "validator";
 import "../App.css";
 
 export default function Login() {
   const [setUser] = useOutletContext();
 
+  const [errorMessage, setErrorMessage] = useState("");
+  const [errorEmail, setErrorEmail] = useState("");
+  const [isEmailError, setIsEmailError] = useState(false);
+  const [isPasswordError, setIsPasswordError] = useState(false);
+
   const navigate = useNavigate();
   const emailRef = useRef("");
   const passwordRef = useRef("");
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const validate = (value) => {
+    if (
+      validator.isStrongPassword(value, {
+        minLength: 8,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+      })
+    ) {
+      setErrorMessage("valid password");
+      setIsPasswordError(true);
+    } else {
+      setErrorMessage("invalid password");
+      setIsPasswordError(false);
+    }
+  };
+
+  const validateEmail = (value) => {
+    if (!validator.isEmail(value)) {
+      setErrorEmail("Invalid emaill address");
+      setIsEmailError(false);
+    } else {
+      setErrorEmail("Valid emaill address");
+      setIsEmailError(true);
+    }
+  };
+
+  const handleLogin = async () => {
+    //e.preventDefault();
     const loginDetail = {
       email: emailRef.current.value,
       password: passwordRef.current.value,
@@ -48,7 +82,37 @@ export default function Login() {
             <label htmlFor="email" className="label">
               Email{" "}
             </label>
-            <input name="email" ref={emailRef} type="text" className="input" />
+            <input
+              name="email"
+              ref={emailRef}
+              type="text"
+              className="input"
+              onChange={(e) => {
+                let emailValue = e.target.value;
+                validateEmail(emailValue);
+              }}
+            />
+            {!isEmailError ? (
+              <span
+                style={{
+                  fontWeight: "bold",
+                  color: "red",
+                  paddingTop: ".5rem",
+                }}
+              >
+                {errorEmail}
+              </span>
+            ) : (
+              <span
+                style={{
+                  fontWeight: "bold",
+                  color: "green",
+                  paddingTop: ".5rem",
+                }}
+              >
+                {errorEmail}
+              </span>
+            )}
           </div>
           <div className="form-label">
             <label htmlFor="password" className="label">
@@ -60,7 +124,31 @@ export default function Login() {
               type="password"
               className="input"
               maxLength={8}
+              onChange={(e) => {
+                validate(e.target.value);
+              }}
             />
+            {!isPasswordError ? (
+              <span
+                style={{
+                  fontWeight: "bold",
+                  color: "red",
+                  paddingTop: ".5rem",
+                }}
+              >
+                {errorMessage}
+              </span>
+            ) : (
+              <span
+                style={{
+                  fontWeight: "bold",
+                  color: "green",
+                  paddingTop: ".5rem",
+                }}
+              >
+                {errorMessage}
+              </span>
+            )}
           </div>
           <div className="sign-up">
             New to App? <Link to={"/signup"}>Sign up</Link>
@@ -68,7 +156,15 @@ export default function Login() {
           <div
             type="submit"
             className="button-login primary-button"
-            onClick={handleLogin}
+            onClick={() => {
+              if (!isEmailError) {
+                alert(`Invalid ${errorEmail}`);
+              } else if (!isPasswordError) {
+                alert(`${errorMessage}`);
+              } else {
+                handleLogin();
+              }
+            }}
           >
             Log In
           </div>
