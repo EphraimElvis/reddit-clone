@@ -58,7 +58,7 @@ const Post = ({
             className="material-symbols-outlined unread"
             onClick={() => {
               if (userId === userPostId) {
-                alert("User cannot read own post");
+                alert("User cannot like own post");
                 return;
               } else {
                 handleRead();
